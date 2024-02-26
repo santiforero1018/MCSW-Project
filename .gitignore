@@ -396,3 +396,9 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# target folder
+ /airetupalbank/target
+
+# comands 
+COMANDOS.txt
