@@ -12,6 +12,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import edu.eci.mcsw.persistence.DbConnection;
+
 public class WebServer {
     private static final int PORT = 35000;
 
@@ -28,6 +30,8 @@ public class WebServer {
      * @throws IOException throws IOException if something fails
      */
     public static void startServer() throws IOException {
+
+        DbConnection.createUsersTable();
         ServerSocket serverSocket = null;
 
         try {

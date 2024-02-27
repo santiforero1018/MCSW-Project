@@ -1,3 +1,4 @@
+edu\eci\mcsw\Model\Users.class
 edu\eci\mcsw\persistence\DbConnection.class
 edu\eci\mcsw\server\WebServer.class
 edu\eci\mcsw\App.class
