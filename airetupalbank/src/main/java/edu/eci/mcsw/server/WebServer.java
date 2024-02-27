@@ -31,7 +31,7 @@ public class WebServer {
      */
     public static void startServer() throws IOException {
 
-        DbConnection.createUsersTable();
+        DbConnection.sqlExecutor();
         ServerSocket serverSocket = null;
 
         try {
