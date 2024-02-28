@@ -1,3 +1,5 @@
+edu\eci\mcsw\Model\Bill.class
+edu\eci\mcsw\Model\Service.class
 edu\eci\mcsw\persistence\DbConnection.class
 edu\eci\mcsw\Model\User.class
 edu\eci\mcsw\server\WebServer.class

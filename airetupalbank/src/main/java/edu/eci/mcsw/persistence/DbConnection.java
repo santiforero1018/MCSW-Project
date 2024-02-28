@@ -29,8 +29,38 @@ public class DbConnection {
                     st.executeUpdate(instruction);
                 }
             }
+
+            scan.close();
+
+            // QUEMANDO UN USUARIO
+            String insert = "INSERT INTO users(id, nombre, role, email, password) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement sqt = con.prepareStatement(insert);
+            sqt.setInt(1, 1);
+            sqt.setString(2, "proof");
+            sqt.setString(3, "admin");
+            sqt.setString(4, "pepito@gmail.com");
+            sqt.setString(5, "proof");
+
+            sqt.executeUpdate();
         } catch (Exception e) {
             System.out.println("An error happened: "+e.getMessage());
         }
+    }
+
+    /**
+     * verify username and password
+     * @return true if user can entry, or false in other case
+     */
+    public static Boolean userAuth(String username, String password) {
+        try (Connection con = DriverManager.getConnection(URL, USER, PASSWORD)) {
+            String searchUser = "SELECT id FROM users WHERE nombre = ?";
+            PreparedStatement st = con.prepareStatement(searchUser);
+            st.setString(1, username);
+            ResultSet rs = st.executeQuery();
+            return rs.next();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

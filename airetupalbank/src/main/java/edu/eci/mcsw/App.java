@@ -5,7 +5,7 @@ import java.io.IOException;
 import edu.eci.mcsw.server.*;
 
 /**
- * Hello world!
+ * Main class
  *
  */
 public class App 

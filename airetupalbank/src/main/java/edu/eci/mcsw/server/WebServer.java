@@ -32,6 +32,7 @@ public class WebServer {
     public static void startServer() throws IOException {
 
         DbConnection.sqlExecutor();
+        System.out.println("correct search into db: "+ DbConnection.userAuth("proof", "proof"));
         ServerSocket serverSocket = null;
 
         try {
@@ -71,7 +72,7 @@ public class WebServer {
             System.out.println("Peticion: "+petition);
 
             outputLine = getPetitionPage(petition, clientSocket.getOutputStream());
-
+            
             out.println(outputLine);
             out.close();
             in.close();
