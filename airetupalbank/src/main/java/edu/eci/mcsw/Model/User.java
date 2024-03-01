@@ -2,7 +2,7 @@ package edu.eci.mcsw.Model;
 
 public class User {
 
-    private int id;
+    
     private String nombre;
     private String email;
     private String role;
@@ -11,26 +11,28 @@ public class User {
     /**
      * Default constructor with atributes
      */
-    public User(int id, String nombre, String email, String role, String password){
-        this.id = id;
+    public User(String nombre, String email, String role, String password){
+       
         this.nombre = nombre;
         this.email = email;
         this.role = role;
         this.password = password;
     }
 
+    
+
+    public User(String nombre, String email, String role) {
+        this.nombre = nombre;
+        this.email = email;
+        this.role = role;
+    }
+
+
+
     /**
      * Default constructor
      */
     public User() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getNombre() {

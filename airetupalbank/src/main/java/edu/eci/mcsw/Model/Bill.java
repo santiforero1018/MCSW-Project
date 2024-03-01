@@ -8,6 +8,7 @@ public class Bill {
     private Boolean paid;
     private Date emisionDate;
     private Date paidDate;
+    private int user_id;
 
     /**
      * default constructor
@@ -24,12 +25,13 @@ public class Bill {
      * @param emisionDate
      * @param paidDate
      */
-    public Bill(String reference, int price, Boolean paid, Date emisionDate, Date paidDate) {
+    public Bill(String reference, int price, Boolean paid, Date emisionDate, Date paidDate, int user_id) {
         this.reference = reference;
         this.price = price;
         this.paid = paid;
         this.emisionDate = emisionDate;
         this.paidDate = paidDate;
+        this.user_id = user_id;
     }
     public String getReference() {
         return reference;
@@ -60,6 +62,14 @@ public class Bill {
     }
     public void setPaidDate(Date paidDate) {
         this.paidDate = paidDate;
+    }
+
+    public int getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
     }
 
     
