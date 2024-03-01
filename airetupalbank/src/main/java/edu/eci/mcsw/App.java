@@ -11,17 +11,16 @@ import edu.eci.mcsw.server.*;
  * Hello world!
  *
  */
-public class App 
-{
-    public static void main( String[] args )
-    {
+public class App {
+    public static void main(String[] args) {
+
         try {
-        WebServer.startServer();
-        Connection con = DbConnection.getConnection();
+            WebServer.startServer();
+            Connection con = DbConnection.getConnection();
         } catch (IOException e) {
             // TODO: handle exception
             System.out.println("Couldn't start the server: " + e.getMessage());
-        } catch(SQLException e){
+        } catch (SQLException e) {
             System.out.println("Couldn Connect to Database: " + e.getMessage());
         }
     }

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="CSS/login.css">
+    <link rel="stylesheet" href="CSS/pagos.css">
     <link rel="icon" href="img/logo.jpg" type="image/x-icon">
     <title>Airetupal-Bank Login</title>
     
@@ -12,15 +12,18 @@
 
 <body>
     <div id="logo">
-        <h1><i>Login Airetupal Bank</i></h1>
+        <h1><i>Pagos Airetupal Bank</i></h1>
     </div>
     <section class="stark-login">
 
         <form action="" method="">
             <div id="fade-box">
-                <input type="text" name="username" id="username" placeholder="Username" required>
-                <input type="password" placeholder="Password" required>
-                <button>Log In</button>
+                <input type="text" name="factura" id="factura" placeholder="referencia factura" required>
+                <input type="text" name="co" id="co" placeholder="su cuenta" required>
+                <input type="text" name="cd" id="cd" placeholder="cuenta destino" required>
+                <input type="text" name="banco" id="banco" placeholder="Banco" required>
+                <input type="number" name="monto" id="monto" placeholder="monto" required>
+                <button>PAGAR</button>
             </div>
         </form>
         <div class="hexagons">
