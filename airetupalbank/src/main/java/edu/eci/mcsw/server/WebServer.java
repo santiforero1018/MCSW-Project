@@ -12,6 +12,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import edu.eci.mcsw.persistence.DbConnection;
+
 public class WebServer {
     private static final int PORT = 35000;
 
@@ -28,6 +30,9 @@ public class WebServer {
      * @throws IOException throws IOException if something fails
      */
     public static void startServer() throws IOException {
+
+        DbConnection.sqlExecutor();
+        System.out.println("correct search into db: "+ DbConnection.userAuth("proof", "proof"));
         ServerSocket serverSocket = null;
 
         try {
@@ -67,7 +72,7 @@ public class WebServer {
             System.out.println("Peticion: " + petition);
 
             outputLine = getPetitionPage(petition, clientSocket.getOutputStream());
-
+            
             out.println(outputLine);
             out.close();
             in.close();
