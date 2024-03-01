@@ -64,7 +64,7 @@ public class WebServer {
                 }
             }
 
-            System.out.println("Peticion: "+petition);
+            System.out.println("Peticion: " + petition);
 
             outputLine = getPetitionPage(petition, clientSocket.getOutputStream());
 
@@ -81,14 +81,14 @@ public class WebServer {
 
     /**
      * method that returns the login page
+     * 
      * @return the login page
      */
     private static String getPetitionPage(String pagePetition, OutputStream op) {
-        return getOKHeader() + getMimeType(pagePetition) +"\r\n"
-        + "\r\n"
-        + getStaticFile(pagePetition, op);
+        return getOKHeader() + getMimeType(pagePetition) + "\r\n"
+                + "\r\n"
+                + getStaticFile(pagePetition, op);
     }
-
 
     /**
      * Method that identify the MIME type of the files to return to the client
@@ -97,50 +97,59 @@ public class WebServer {
      * @return a String with the MIME type of the file
      */
     private static String getMimeType(String filePetition) {
-        return (filePetition.endsWith(".html") || filePetition.endsWith("/")) ? "text/html"
-                : ((filePetition.endsWith(".css")) ? "text/css"
-                        : (filePetition.endsWith(".js")) ? "application/javascript"
-                                : (filePetition.endsWith(".jpg")) ? "image/jpg" : "text/plain");
+        if (filePetition.endsWith(".html") || filePetition.endsWith("/")) {
+            return "text/html";
+        } else if (filePetition.endsWith(".css")) {
+            return "text/css";
+        } else if (filePetition.endsWith(".scss")) {
+            return "text/x-scss"; // o "text/scss"
+        } else if (filePetition.endsWith(".js")) {
+            return "application/javascript";
+        } else if (filePetition.endsWith(".jpg")) {
+            return "image/jpg";
+        } else {
+            return "text/plain";
+        }
     }
-
 
     /**
-     * this mehtod returns the static file related with the request
+     * returns the static file related with the request
      * 
-     * @param filePetition path of the file
-     * @param op           OutputStream to return an image if is necessary
-     * @return A string with all information insite the file
+     * @return string with all information insite the file
      */
-    private static String getStaticFile(String filePetition, OutputStream op) {
-        Path file = (filePetition.equals("/")) ? Paths.get("target/classes/public/static/Login.html")
-                : (Paths.get("target/classes/public/static" + filePetition));
+    private static String getStaticFile(String file, OutputStream ops) {
+        Path path = (file.equals("/"))
+                ? Paths.get(getStaticFilesDirectory() + "/login.html")
+                : Paths.get(getStaticFilesDirectory() + file);
 
-        // System.out.println(filePetition);
-        Charset charset = Charset.forName("ISO_8859_1");
-        StringBuilder outputLine = new StringBuilder();
-        try (BufferedReader reader = Files.newBufferedReader(file, charset)) {
-            String line = null;
+        try {
+            Charset charset = Charset.forName("UTF-8");
+            StringBuilder outputLine = new StringBuilder();
+            byte[] bytes;
 
-            while ((line = reader.readLine()) != null) {
-                if (filePetition.contains(".jpg")) {
-                    byte[] imageBytes = getAnImage(filePetition);
-                    String response = getOKHeader() + getMimeType(filePetition) + "\r\n" +
-                            "Content-Length: " + imageBytes.length + "\r\n" +
-                            "\r\n";
-                    op.write(response.getBytes());
-                    op.write(imageBytes);
+            if (file.endsWith(".jpg")) {
+                bytes = getAnImage(file);
+                String response = "HTTP/1.1 200 OK\r\n" +
+                        "Content-Type: image/jpeg\r\n" +
+                        "Content-Length: " + bytes.length + "\r\n" +
+                        "\r\n";
+                ops.write(response.getBytes());
+                ops.write(bytes);
+            } else {
+                try (BufferedReader reader = Files.newBufferedReader(path, charset)) {
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        outputLine.append(line).append("\n");
+                    }
                 }
-                outputLine.append(line).append("\n");
-
             }
-        } catch (Exception e) {
-            System.err.format(e.getMessage(), e);
-            // e.printStackTrace();
+
+            return outputLine.toString();
+        } catch (IOException e) {
+            System.err.println("Error al leer el archivo: " + e.getMessage());
+            return getNotFoundHeader();
         }
-
-        return outputLine.toString();
     }
-
 
     /**
      * Method that return the bytes of an image
@@ -150,7 +159,7 @@ public class WebServer {
      */
     private static byte[] getAnImage(String filePetition) {
 
-        Path image = Paths.get("target/classes/public/static" + filePetition);
+        Path image = Paths.get(getStaticFilesDirectory() + filePetition);
 
         try {
             return Files.readAllBytes(image);
@@ -179,5 +188,9 @@ public class WebServer {
     private static String getNotFoundHeader() {
         return "HTTP/1.1 404 NOT FOUND\r\n"
                 + "Content-Type: ";
+    }
+
+    public static String getStaticFilesDirectory() {
+        return "target/classes/public/static";
     }
 }
