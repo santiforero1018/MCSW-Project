@@ -4,9 +4,7 @@ import java.io.File;
 import java.sql.*;
 import java.util.Scanner;
 
-import edu.eci.mcsw.Model.Bill;
-import edu.eci.mcsw.Model.Service;
-import edu.eci.mcsw.Model.User;
+import edu.eci.mcsw.Model.*;
 
 /**
  * Class to connect with a dataBase
@@ -86,25 +84,45 @@ public class DbConnection {
 
             sqt.executeUpdate();
         } catch(Exception e){
-            System.out.println("An erros ocurred: "+ e.getMessage());
+            System.out.println("An error ocurred: "+ e.getMessage());
         }
     }
 
     /**
-     * 
+     * method that inserts a bill into db
+     * @param bill the new bill to add into Db
      */
     public static void addBill(Bill bill){
-        
+        try (Connection con = DriverManager.getConnection(URL, USER, PASSWORD)){
+            String insert = "INSERT INTO bills(reference, price, paid, emisionDate, paidDate, id_cliente) VALUES(?,?,?,?,?,?)";
+            PreparedStatement sqt = con.prepareStatement(insert);
+            sqt.setString(1, bill.getReference());
+            sqt.setInt(2, bill.getPrice());
+            sqt.setString(3, bill.getReference());
+            sqt.setString(4, bill.getReference());
+            sqt.setString(5, bill.getReference());
+            sqt.setString(6, bill.getReference());
+
+            sqt.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("An error ocured: "+ e.getMessage());
+        }
     }
 
     /**
      * method to add a service to db
-     * @param service 
+     * @param service the new service to add into Db
      */
     public static void addService(Service service){
         
     }
 
+    /**
+     * method that returns users Info
+     * @param name name of the user to search 
+     * @param email email of the user to 
+     * @return an user with general info 
+     */
     public static User getUser(String name, String email){
         try (Connection con = DriverManager.getConnection(URL, USER, PASSWORD)){
             String searchUser = "SELECT name, role, email FROM users WHERE name = ? AND email = ?";
@@ -119,14 +137,32 @@ public class DbConnection {
         return null;
     }   
 
+
+    /**
+     * method that get info about the bill
+     * @param reference reference of the bill
+     * @return a Bill with general Info 
+     */
     public static Bill getBill(String reference){
 
         return null;
     }
-
+    
+    /**
+     * method that return Service info
+     * @param id
+     * @return a service with general info 
+     */
     public static Service getService(int id){
         return null;
     }
 
+    /**
+     * method to add a new account to Db
+     * @param account new account to add to Db
+     */
+    public static void addAccount(Account account){
+
+    }
 
 }
