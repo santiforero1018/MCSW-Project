@@ -130,7 +130,7 @@ public class DbConnection {
             sqt.setString(4, service.getBillReference());
             sqt.executeUpdate();     
         } catch (Exception e) {
-            System.out.println("An error ocured: " + e.getMessage());
+            System.out.println("An error happenned: " + e.getMessage());
         }
     }
 
@@ -150,7 +150,7 @@ public class DbConnection {
             sqt.setInt(5, account.getUser_id());
             sqt.executeUpdate();
         } catch (Exception e) {
-            // TODO: handle exception
+            System.out.println("An error happened trying to add Accounts: "+e.getMessage());
         }
     }
 
@@ -159,16 +159,16 @@ public class DbConnection {
      * 
      * @param name  name of the user to search
      * @param email email of the user to
-     * @return an user with general info
+     * @return an user with general info or return empty
      */
-    public static User getUser(String name, String email) {
+    public static Optional<?> getUser(String name, String email) {
         try (Connection con = DriverManager.getConnection(URL, USER, PASSWORD)) {
             String searchUser = "SELECT name, role, email FROM users WHERE name = ? AND email = ?";
             PreparedStatement st = con.prepareStatement(searchUser);
             st.setString(1, name);
             st.setString(2, email);
             ResultSet rs = st.executeQuery();
-            return new User(rs.getString("name"), rs.getString("role"), rs.getString("email"));
+            return (rs.next()) ? Optional.empty():Optional.of(new User(rs.getString("name"), rs.getString("role"), rs.getString("email"))) ;
         } catch (Exception e) {
             System.out.println("can't complete the query: " + e.getMessage());
         }
