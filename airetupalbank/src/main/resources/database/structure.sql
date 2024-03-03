@@ -1,6 +1,9 @@
 CREATE TABLE IF NOT EXISTS users(id INT PRIMARY KEY AUTO_INCREMENT, nombre VARCHAR(50) NOT NULL UNIQUE, role VARCHAR(50) NOT NULL, email VARCHAR(50) NOT NULL UNIQUE,password VARCHAR(50) NOT NULL UNIQUE);
 CREATE TABLE IF NOT EXISTS bills(reference VARCHAR(10) PRIMARY KEY, price INT, paid VARCHAR(6), emisionDate Date, paidDate Date,id_cliente INT);
 CREATE TABLE IF NOT EXISTS services(id INT PRIMARY KEY AUTO_INCREMENT, nombre VARCHAR(50), company VARCHAR(50), consume INT, ref_bill VARCHAR(10)); 
-CREATE TABLE IF NOT EXISTS accounts(id VARCHAR(10) PRIMARY KEY, type-account VARCHAR(15), amount INT NOT NULL, bank VARCHAR(20) NOT NULL, user_id INT);
+CREATE TABLE IF NOT EXISTS accounts(id VARCHAR(10) PRIMARY KEY, accountType VARCHAR(15), amount INT NOT NULL, bank VARCHAR(20) NOT NULL, user_id INT);
 ALTER TABLE bills ADD CONSTRAINT FK_Bill_user FOREIGN KEY (id_cliente) REFERENCES users(id);
 ALTER TABLE services ADD CONSTRAINT FK_service_bills FOREIGN KEY (ref_bill) REFERENCES bills(reference);
+ALTER TABLE accounts ADD CONSTRAINT FK_accounts_user FOREIGN KEY (user_id) REFERENCES users(id);
+CREATE TRIGGER generar_reference BEFORE INSERT ON bills FOR EACH ROW BEGIN DECLARE next_reference VARCHAR(10); SELECT CONCAT(DATE_FORMAT(CURDATE(), '%y%m%d'), LPAD(COUNT(reference)+1, 3, '0')) INTO next_reference FROM bills WHERE DATE(emisionDate) = CURDATE(); SET NEW.reference = next_reference; END;
+-- CREATE OR REPLACE TRIGGER gen_account_id BEFORE INSERT ON accounts FOR EACH ROW BEGIN DECLARE num INT; SET num = FLOOR(1000 + RAND() * 9000); IF NOT EXISTS (SELECT 1 FROM accounts WHERE id = num) THEN SET NEW.id = num; ELSE SET NEW.id = NULL; END IF; END;/

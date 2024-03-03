@@ -5,6 +5,7 @@ public class Account {
     private String type;
     private int amount;
     private String bank;
+    private int user_id;
 
     /**
      * Default constructor
@@ -19,11 +20,12 @@ public class Account {
      * @param amount
      * @param bank
      */
-    public Account(String num, String type, int amount, String bank) {
+    public Account(String num, String type, int amount, String bank, int user_id) {
         this.num = num;
         this.type = type;
         this.amount = amount;
         this.bank = bank;
+        this.user_id = user_id;
     }
 
     public String getNum() {
@@ -49,6 +51,14 @@ public class Account {
     }
     public void setBank(String bank) {
         this.bank = bank;
+    }
+
+    public int getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
     }
 
     
