@@ -5,5 +5,5 @@ CREATE TABLE IF NOT EXISTS accounts(id VARCHAR(10) PRIMARY KEY, accountType VARC
 ALTER TABLE bills ADD CONSTRAINT FK_Bill_user FOREIGN KEY (id_cliente) REFERENCES users(id);
 ALTER TABLE services ADD CONSTRAINT FK_service_bills FOREIGN KEY (ref_bill) REFERENCES bills(reference);
 ALTER TABLE accounts ADD CONSTRAINT FK_accounts_user FOREIGN KEY (user_id) REFERENCES users(id);
-CREATE OR REPLACE TRIGGER generar_reference BEFORE INSERT ON bills FOR EACH ROW BEGIN DECLARE next_reference VARCHAR(10); SELECT CONCAT(DATE_FORMAT(CURDATE(), '%y%m%d'), LPAD(COUNT(reference)+1, 3, '0')) INTO next_reference FROM bills WHERE DATE(emisionDate) = CURDATE(); SET NEW.reference = next_reference; END; /
+CREATE TRIGGER generar_reference BEFORE INSERT ON bills FOR EACH ROW BEGIN DECLARE next_reference VARCHAR(10); SELECT CONCAT(DATE_FORMAT(CURDATE(), '%y%m%d'), LPAD(COUNT(reference)+1, 3, '0')) INTO next_reference FROM bills WHERE DATE(emisionDate) = CURDATE(); SET NEW.reference = next_reference; END;
 -- CREATE OR REPLACE TRIGGER gen_account_id BEFORE INSERT ON accounts FOR EACH ROW BEGIN DECLARE num INT; SET num = FLOOR(1000 + RAND() * 9000); IF NOT EXISTS (SELECT 1 FROM accounts WHERE id = num) THEN SET NEW.id = num; ELSE SET NEW.id = NULL; END IF; END;/
