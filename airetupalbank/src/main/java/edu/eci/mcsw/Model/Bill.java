@@ -33,6 +33,14 @@ public class Bill {
         this.paidDate = paidDate;
         this.user_id = user_id;
     }
+    public Bill(int price, Boolean paid, Date emisionDate, Date paidDate, int user_id) {
+        this.price = price;
+        this.paid = paid;
+        this.emisionDate = emisionDate;
+        this.paidDate = paidDate;
+        this.user_id = user_id;
+    }
+
     public String getReference() {
         return reference;
     }

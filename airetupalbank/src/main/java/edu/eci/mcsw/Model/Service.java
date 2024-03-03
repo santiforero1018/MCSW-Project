@@ -3,7 +3,7 @@ package edu.eci.mcsw.Model;
 public class Service {
     private String nombre;
     private String company;
-    private String consume;
+    private int consume;
     private String billReference;
 
     /**
@@ -19,7 +19,7 @@ public class Service {
      * @param company
      * @param consume
      */
-    public Service(String nombre, String company, String consume, String billReference) {
+    public Service(String nombre, String company, int consume, String billReference) {
         this.nombre = nombre;
         this.company = company;
         this.consume = consume;
@@ -39,10 +39,10 @@ public class Service {
     public void setCompany(String company) {
         this.company = company;
     }
-    public String getConsume() {
+    public int getConsume() {
         return consume;
     }
-    public void setConsume(String consume) {
+    public void setConsume(int consume) {
         this.consume = consume;
     }
 
