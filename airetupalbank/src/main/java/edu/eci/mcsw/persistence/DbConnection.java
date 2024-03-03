@@ -2,7 +2,9 @@ package edu.eci.mcsw.persistence;
 
 import java.io.File;
 import java.sql.*;
+import java.util.Optional;
 import java.util.Scanner;
+
 
 import edu.eci.mcsw.Model.*;
 
@@ -50,8 +52,10 @@ public class DbConnection {
     }
 
     /**
-     * verify username and password
+     * Method that verify username and password
      * 
+     * @param username the username of the user to verify
+     * @param password the password to verify into db
      * @return true if user can entry, or false in other case
      */
     public static Boolean userAuth(String username, String password) {
@@ -69,11 +73,12 @@ public class DbConnection {
     }
 
     /**
-     * method to add a new user into db 
+     * method to add a new user into db
+     * 
      * @param newUser
      */
     public static void addUser(User newUser) {
-        try(Connection con = DriverManager.getConnection(URL, USER, PASSWORD)){
+        try (Connection con = DriverManager.getConnection(URL, USER, PASSWORD)) {
             String insert = "INSERT INTO users(nombre, role, email, password) VALUES (?, ?, ?, ?)";
             PreparedStatement sqt = con.prepareStatement(insert);
             // sqt.setInt(1, 1);
@@ -83,17 +88,18 @@ public class DbConnection {
             sqt.setString(4, newUser.getPassword());
 
             sqt.executeUpdate();
-        } catch(Exception e){
-            System.out.println("An error ocurred: "+ e.getMessage());
+        } catch (Exception e) {
+            System.out.println("An error ocurred: " + e.getMessage());
         }
     }
 
     /**
      * method that inserts a bill into db
+     * 
      * @param bill the new bill to add into Db
      */
-    public static void addBill(Bill bill){
-        try (Connection con = DriverManager.getConnection(URL, USER, PASSWORD)){
+    public static void addBill(Bill bill) {
+        try (Connection con = DriverManager.getConnection(URL, USER, PASSWORD)) {
             String insert = "INSERT INTO bills(reference, price, paid, emisionDate, paidDate, id_cliente) VALUES(?,?,?,?,?,?)";
             PreparedStatement sqt = con.prepareStatement(insert);
             sqt.setString(1, bill.getReference());
@@ -105,26 +111,58 @@ public class DbConnection {
 
             sqt.executeUpdate();
         } catch (Exception e) {
-            System.out.println("An error ocured: "+ e.getMessage());
+            System.out.println("An error ocured: " + e.getMessage());
         }
     }
 
     /**
      * method to add a service to db
+     * 
      * @param service the new service to add into Db
      */
-    public static void addService(Service service){
-        
+    public static void addService(Service service) {
+        try (Connection con = DriverManager.getConnection(URL, USER, PASSWORD)){
+            String insert = "INSERT INTO services(nombre, company, consume, ref_bill) VALUES(?,?,?,?)";
+            PreparedStatement sqt = con.prepareStatement(insert);
+            sqt.setString(1, service.getNombre());     
+            sqt.setString(2, service.getCompany());     
+            sqt.setString(3, service.getConsume());     
+            sqt.setString(4, service.getBillReference());
+            sqt.executeUpdate();     
+        } catch (Exception e) {
+            System.out.println("An error ocured: " + e.getMessage());
+        }
+    }
+
+    /**
+     * method to add a new account to Db
+     * 
+     * @param account new account to add to Db
+     */
+    public static void addAccount(Account account) {
+        try (Connection con = DriverManager.getConnection(URL, USER, PASSWORD)){
+            String insert = "INSERT INTO accounts(id, accountType, amount, bank, user_id) VALUES(?,?,?,?,?)";
+            PreparedStatement sqt = con.prepareStatement(insert);
+            sqt.setString(1, account.getNum());
+            sqt.setString(2, account.getType());
+            sqt.setInt(3, account.getAmount());
+            sqt.setString(4, account.getBank());
+            sqt.setInt(5, account.getUser_id());
+            sqt.executeUpdate();
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
     }
 
     /**
      * method that returns users Info
-     * @param name name of the user to search 
-     * @param email email of the user to 
-     * @return an user with general info 
+     * 
+     * @param name  name of the user to search
+     * @param email email of the user to
+     * @return an user with general info
      */
-    public static User getUser(String name, String email){
-        try (Connection con = DriverManager.getConnection(URL, USER, PASSWORD)){
+    public static User getUser(String name, String email) {
+        try (Connection con = DriverManager.getConnection(URL, USER, PASSWORD)) {
             String searchUser = "SELECT name, role, email FROM users WHERE name = ? AND email = ?";
             PreparedStatement st = con.prepareStatement(searchUser);
             st.setString(1, name);
@@ -132,37 +170,52 @@ public class DbConnection {
             ResultSet rs = st.executeQuery();
             return new User(rs.getString("name"), rs.getString("role"), rs.getString("email"));
         } catch (Exception e) {
-            System.out.println("An erros ocurred: "+ e.getMessage());
+            System.out.println("can't complete the query: " + e.getMessage());
         }
         return null;
-    }   
-
+    }
 
     /**
      * method that get info about the bill
+     * 
      * @param reference reference of the bill
-     * @return a Bill with general Info 
+     * @return a Bill with general Info
      */
-    public static Bill getBill(String reference){
-
+    public static Bill getBill(String reference) {
+        try (Connection con = DriverManager.getConnection(URL, USER, PASSWORD)) {
+            String searchBill = "SELECT reference, price, paid, emisionDate, paidDate, id_cliente FROM bills WHERE reference = ?";
+            PreparedStatement st = con.prepareStatement(searchBill);
+            st.setString(1, reference);
+            ResultSet rs = st.executeQuery();
+            Boolean paid = (rs.getString("paid").equals("YES")) ? true : false;
+            return new Bill(rs.getString("reference"), rs.getInt("price"), paid, rs.getDate("emisionDate"),
+                    rs.getDate("paidDate"), rs.getInt("id_cliente"));
+        } catch (Exception e) {
+            System.out.println("can't complete the query: " + e.getMessage());
+        }
         return null;
     }
-    
+
     /**
      * method that return Service info
+     * 
      * @param id
-     * @return a service with general info 
+     * @return a service with general info
      */
-    public static Service getService(int id){
+    public static Service getService(int id) {
+
         return null;
     }
 
     /**
-     * method to add a new account to Db
-     * @param account new account to add to Db
+     * Method that return an account if account id and username match
+     * 
+     * @param id       account id to search
+     * @param username name of the user to match with account Id
+     * @return
      */
-    public static void addAccount(Account account){
-
+    public static Optional<?> geAccount(String id, String username) {
+        return null;
     }
 
 }

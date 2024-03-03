@@ -4,6 +4,7 @@ public class Service {
     private String nombre;
     private String company;
     private String consume;
+    private String billReference;
 
     /**
      * Default constructor
@@ -18,10 +19,11 @@ public class Service {
      * @param company
      * @param consume
      */
-    public Service(String nombre, String company, String consume) {
+    public Service(String nombre, String company, String consume, String billReference) {
         this.nombre = nombre;
         this.company = company;
         this.consume = consume;
+        this.billReference = billReference;
     }
 
 
@@ -42,6 +44,16 @@ public class Service {
     }
     public void setConsume(String consume) {
         this.consume = consume;
+    }
+
+
+    public String getBillReference() {
+        return billReference;
+    }
+
+
+    public void setBillReference(String billReference) {
+        this.billReference = billReference;
     }
     
 }
