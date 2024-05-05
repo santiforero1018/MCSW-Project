@@ -1,20 +1,16 @@
 package edu.eci.mcsw;
 
 import java.io.IOException;
-
-import edu.eci.mcsw.server.*;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * Main class
  *
  */
+@SpringBootApplication
 public class App {
     public static void main(String[] args) {
-
-        try {
-        WebServer.startServer();
-        } catch (IOException e) {
-            System.out.println("Couldn't start the server: " + e.getMessage());
-        } 
-    }
+		SpringApplication.run(App.class, args);
+	}
 }

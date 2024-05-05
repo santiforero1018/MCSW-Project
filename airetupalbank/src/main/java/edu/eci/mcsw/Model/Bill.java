@@ -1,14 +1,31 @@
 package edu.eci.mcsw.Model;
 
-import java.sql.Date;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
+import lombok.Data;
 
+import java.sql.Date;
+import java.util.List;
+import java.util.UUID;
+
+@Data
+@Entity(name = "bills")
 public class Bill {
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String reference;
     private int price;
     private Boolean paid;
     private Date emisionDate;
     private Date paidDate;
-    private int user_id;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonBackReference
+    private User userRef;
+
+    @OneToMany(mappedBy = "bill", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Service> services;
 
     /**
      * default constructor
@@ -25,59 +42,29 @@ public class Bill {
      * @param emisionDate
      * @param paidDate
      */
-    public Bill(String reference, int price, Boolean paid, Date emisionDate, Date paidDate, int user_id) {
-        this.reference = reference;
+    public Bill(UUID reference, int price, Boolean paid, Date emisionDate, Date paidDate, User userRef, List<Service> services) {
+        this.reference = reference.toString();
         this.price = price;
         this.paid = paid;
         this.emisionDate = emisionDate;
         this.paidDate = paidDate;
-        this.user_id = user_id;
+        this.userRef = userRef;
+        this.services = services;
     }
-    public Bill(int price, Boolean paid, Date emisionDate, Date paidDate, int user_id) {
+    public Bill(int price, Boolean paid, Date emisionDate, Date paidDate, User userRef,List<Service> services) {
         this.price = price;
         this.paid = paid;
         this.emisionDate = emisionDate;
         this.paidDate = paidDate;
-        this.user_id = user_id;
+        this.userRef = userRef;
+        this.services = services;
     }
 
-    public String getReference() {
-        return reference;
-    }
-    public void setReference(String reference) {
-        this.reference = reference;
-    }
-    public int getPrice() {
-        return price;
-    }
-    public void setPrice(int price) {
-        this.price = price;
-    }
-    public Boolean getPaid() {
-        return paid;
-    }
-    public void setPaid(Boolean paid) {
-        this.paid = paid;
-    }
-    public Date getEmisionDate() {
-        return emisionDate;
-    }
-    public void setEmisionDate(Date emisionDate) {
-        this.emisionDate = emisionDate;
-    }
-    public Date getPaidDate() {
-        return paidDate;
-    }
-    public void setPaidDate(Date paidDate) {
-        this.paidDate = paidDate;
-    }
-
-    public int getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void addService(Service newService){
+        if(!services.contains(newService)){
+            services.add(newService);
+            newService.setBill(this);
+        }
     }
 
     

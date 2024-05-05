@@ -398,7 +398,7 @@ FodyWeavers.xsd
 *.sln.iml
 
 HELP.md
-target/
+./target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
@@ -430,5 +430,8 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
 # comands 
 COMANDOS.txt
+*.asta.lock

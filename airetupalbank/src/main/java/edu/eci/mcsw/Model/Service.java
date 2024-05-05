@@ -1,10 +1,28 @@
 package edu.eci.mcsw.Model;
 
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
+import lombok.Data;
+
+import java.util.UUID;
+
+@Data
+@Entity(name = "services")
 public class Service {
-    private String nombre;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String reference;
+    @Column(unique = true)
+    private String name;
     private String company;
     private int consume;
-    private String billReference;
+
+    @ManyToOne
+    @JoinColumn(name = "bill_reference", referencedColumnName = "reference")
+    @JsonBackReference
+    private Bill bill;
 
     /**
      * Default constructor
@@ -15,45 +33,17 @@ public class Service {
 
     /**
      * constructo with parameters
-     * @param nombre
+     * @param name
      * @param company
      * @param consume
+     * @param bill
      */
-    public Service(String nombre, String company, int consume, String billReference) {
-        this.nombre = nombre;
+    public Service(UUID reference, String name, String company, int consume, Bill bill) {
+        this.reference = reference.toString();
+        this.name = name;
         this.company = company;
         this.consume = consume;
-        this.billReference = billReference;
-    }
-
-
-    public String getNombre() {
-        return nombre;
-    }
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-    public String getCompany() {
-        return company;
-    }
-    public void setCompany(String company) {
-        this.company = company;
-    }
-    public int getConsume() {
-        return consume;
-    }
-    public void setConsume(int consume) {
-        this.consume = consume;
-    }
-
-
-    public String getBillReference() {
-        return billReference;
-    }
-
-
-    public void setBillReference(String billReference) {
-        this.billReference = billReference;
+        this.bill = bill;
     }
     
 }
