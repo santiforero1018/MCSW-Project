@@ -1,5 +1,6 @@
-package edu.eci.mcsw.Model;
+package edu.eci.mcsw.Model.userInfo;
 
+import edu.eci.mcsw.Model.Account;
 import edu.eci.mcsw.Model.enums.UserRoles;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -12,7 +13,7 @@ import java.util.Set;
 
 @Data
 @Entity(name = "users")
-public class User {
+public class UserEnt {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,7 +31,7 @@ public class User {
     /**
      * Default constructor with atributes
      */
-    public User(String name, String email, String password){
+    public UserEnt(String name, String email, String password){
         this.name = name;
         this.email = email;
         this.password = new BCryptPasswordEncoder().encode(password);
@@ -39,9 +40,19 @@ public class User {
     /**
      * Default constructor
      */
-    public User() {
+    public UserEnt() {
     }
 
+    /**
+     * constructor with new Data
+     * @param data
+     */
+    public UserEnt(UserDto data){
+        this.name = data.getUsername();
+        this.password = new BCryptPasswordEncoder().encode(data.getPassword());
+        this.email = data.getEmail();
+        this.roles.add(UserRoles.USER);
+    }
     /**
      * method that adds a new Role to the user
      * @param role

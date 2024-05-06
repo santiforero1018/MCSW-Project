@@ -1,6 +1,7 @@
 package edu.eci.mcsw.Model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import edu.eci.mcsw.Model.userInfo.UserEnt;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -16,7 +17,7 @@ public class Account {
     @ManyToOne
     @JoinColumn(name = "user_id")
     @JsonBackReference
-    private User userRef;
+    private UserEnt userRef;
 
 
     /**
@@ -32,7 +33,7 @@ public class Account {
      * @param amount
      * @param bank
      */
-    public Account(String number, String type, int amount, String bank, User userRef) {
+    public Account(String number, String type, int amount, String bank, UserEnt userRef) {
         this.number = number;
         this.type = type;
         this.amount = amount;
