@@ -1,6 +1,9 @@
 package edu.eci.mcsw.controllers;
 
-public class Login {
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class LoginController {
 
     public String login(String username, String password){
         return "";

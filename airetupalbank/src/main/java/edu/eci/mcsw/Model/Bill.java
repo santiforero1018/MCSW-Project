@@ -1,6 +1,7 @@
 package edu.eci.mcsw.Model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import edu.eci.mcsw.Model.userInfo.UserEnt;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -22,7 +23,7 @@ public class Bill {
     @ManyToOne
     @JoinColumn(name = "user_id")
     @JsonBackReference
-    private User userRef;
+    private UserEnt userRef;
 
     @OneToMany(mappedBy = "bill", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Service> services;
@@ -42,7 +43,7 @@ public class Bill {
      * @param emisionDate
      * @param paidDate
      */
-    public Bill(UUID reference, int price, Boolean paid, Date emisionDate, Date paidDate, User userRef, List<Service> services) {
+    public Bill(UUID reference, int price, Boolean paid, Date emisionDate, Date paidDate, UserEnt userRef, List<Service> services) {
         this.reference = reference.toString();
         this.price = price;
         this.paid = paid;
@@ -51,7 +52,7 @@ public class Bill {
         this.userRef = userRef;
         this.services = services;
     }
-    public Bill(int price, Boolean paid, Date emisionDate, Date paidDate, User userRef,List<Service> services) {
+    public Bill(int price, Boolean paid, Date emisionDate, Date paidDate, UserEnt userRef,List<Service> services) {
         this.price = price;
         this.paid = paid;
         this.emisionDate = emisionDate;
