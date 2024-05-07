@@ -5,6 +5,7 @@ public interface Constanst {
     String ADMIN_ROLE = "ADMIN";
     String AUDIT_ROLE = "AUDIT";
     String USER_ROLE = "USER";
+    String BAD_CREDENTIALS = "USer or password Incorrect";
     String TOKEN_EXPIRED_MALFORMED_ERROR_MESSAGE = "Token expired or malformed";
 
 }

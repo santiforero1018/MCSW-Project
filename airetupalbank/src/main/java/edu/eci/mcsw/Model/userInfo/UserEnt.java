@@ -1,6 +1,7 @@
 package edu.eci.mcsw.Model.userInfo;
 
 import edu.eci.mcsw.Model.Account;
+import edu.eci.mcsw.Model.Bill;
 import edu.eci.mcsw.Model.enums.UserRoles;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -24,9 +25,10 @@ public class UserEnt {
     private String email;
     private List<UserRoles> roles  = new ArrayList<>();
     private String password;
-
     @OneToMany(mappedBy = "userRef", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Account> accounts = new HashSet<>();
+    private Set<Account> accounts = new HashSet<Account>();
+    @OneToMany(mappedBy = "userRef", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Bill> bills = new HashSet<Bill>();
 
     /**
      * Default constructor with atributes
@@ -81,6 +83,13 @@ public class UserEnt {
         if(!accounts.contains(newAccount)){
             accounts.add(newAccount);
             newAccount.setUserRef(this);
+        }
+    }
+
+    public void removeAccount(Account account) {
+        if (accounts.contains(account)){
+            accounts.remove(account);
+            account.setUserRef(null);
         }
     }
     
