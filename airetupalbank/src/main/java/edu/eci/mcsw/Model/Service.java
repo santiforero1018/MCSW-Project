@@ -4,6 +4,8 @@ package edu.eci.mcsw.Model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.UUID;
 
@@ -22,6 +24,7 @@ public class Service {
     @ManyToOne
     @JoinColumn(name = "bill_reference", referencedColumnName = "reference")
     @JsonBackReference
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Bill bill;
 
     /**

@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import edu.eci.mcsw.Model.userInfo.UserEnt;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Data
 @Entity(name = "accounts")
@@ -17,6 +19,7 @@ public class Account {
     @ManyToOne
     @JoinColumn(name = "user_id")
     @JsonBackReference
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private UserEnt userRef;
 
 
@@ -39,6 +42,10 @@ public class Account {
         this.amount = amount;
         this.bank = bank;
         this.userRef = userRef;
+    }
+
+    public void removeUserRef() {
+        this.userRef = null;
     }
     
 }

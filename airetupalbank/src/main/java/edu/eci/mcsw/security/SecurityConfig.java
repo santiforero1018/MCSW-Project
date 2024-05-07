@@ -49,7 +49,7 @@ public class SecurityConfig {
                 .cors(cors -> cors
                         .configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()))
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/v1/auth").permitAll() // Permitir todos los endpoints necesarios
+                        .requestMatchers("/v1/auth/**").permitAll() // Permitir todos los endpoints necesarios
                         .anyRequest().authenticated())
                 .httpBasic(withDefaults())
                 .sessionManagement(

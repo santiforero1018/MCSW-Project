@@ -68,5 +68,9 @@ public class Bill {
         }
     }
 
+    public void removeUserRef() {
+        this.userRef = null;
+    }
+
     
 }
