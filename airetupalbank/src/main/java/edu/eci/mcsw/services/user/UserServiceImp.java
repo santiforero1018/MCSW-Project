@@ -1,5 +1,6 @@
 package edu.eci.mcsw.services.user;
 
+import edu.eci.mcsw.Model.enums.UserRoles;
 import edu.eci.mcsw.Model.userInfo.UserEnt;
 import edu.eci.mcsw.exceptions.InvalidCredentialException;
 import edu.eci.mcsw.exceptions.UserNotFoundException;
@@ -18,6 +19,9 @@ public class UserServiceImp implements UserService{
     @Override
     public void registerNewUser(UserEnt newUser) throws InvalidCredentialException {
         if(!this.userRepository.existsByEmail(newUser.getEmail())){
+            if(this.userRepository.findAll().isEmpty()){
+                newUser.addRole(UserRoles.ADMIN);
+            }
             this.userRepository.save(newUser);
         } else {
             throw new InvalidCredentialException(newUser.getEmail());

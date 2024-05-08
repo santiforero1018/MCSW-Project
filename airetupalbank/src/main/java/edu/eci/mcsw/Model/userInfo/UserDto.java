@@ -23,4 +23,10 @@ public class UserDto {
         this.email = email;
         this.password = new BCryptPasswordEncoder().encode(password);
     }
+
+    public UserDto(String username, String email){
+        this.username = username;
+        this.email = email;
+        this.password = null;
+    }
 }
