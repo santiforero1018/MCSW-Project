@@ -37,7 +37,7 @@ public class UserController {
     public ResponseEntity<?> getAnUser(@PathVariable String email){
         try{
             UserEnt query = this.userService.getUserByEmail(email);
-            UserDto data = new UserDto(query.getName(), query.getEmail(), null);
+            UserDto data = new UserDto(query.getName(), query.getEmail());
             return ResponseEntity.ok(data);
         } catch (UserNotFoundException e){
             return new ResponseEntity<>(e.getMessage(), e.getStatusCode());
