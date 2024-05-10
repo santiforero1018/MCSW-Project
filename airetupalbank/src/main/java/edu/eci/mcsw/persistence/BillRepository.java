@@ -8,6 +8,7 @@ import java.util.Optional;
 
 @Repository
 public interface BillRepository extends JpaRepository<Bill, String> {
-    public Optional<Bill> findByReference(String reference);
+    Optional<Bill> findByReference(String reference);
+    Boolean existsByReference(String reference);
 
 }
