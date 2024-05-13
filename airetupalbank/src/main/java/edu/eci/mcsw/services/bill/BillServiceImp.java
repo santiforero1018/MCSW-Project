@@ -1,15 +1,17 @@
 package edu.eci.mcsw.services.bill;
 
-import edu.eci.mcsw.Model.Bill;
+import edu.eci.mcsw.Model.BillInfo.Bill;
 import edu.eci.mcsw.Model.enums.BillStates;
 import edu.eci.mcsw.Model.userInfo.UserEnt;
 import edu.eci.mcsw.exceptions.BillNotFoundException;
 import edu.eci.mcsw.exceptions.InvalidCredentialException;
 import edu.eci.mcsw.persistence.BillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class BillServiceImp implements BillService{
 
     @Autowired
@@ -87,6 +89,7 @@ public class BillServiceImp implements BillService{
     public void approveModification(String reference, Boolean approved) throws BillNotFoundException {
         Bill bill = this.billRepository.findByReference(reference).orElseThrow(() -> new BillNotFoundException(reference));
         bill.setPrice(approved ? bill.getModifyPrice() : bill.getPrice());
+        bill.setModifyPrice(0);
         this.billRepository.save(bill);
     }
 }

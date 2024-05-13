@@ -1,6 +1,6 @@
 package edu.eci.mcsw.services.bill;
 
-import edu.eci.mcsw.Model.Bill;
+import edu.eci.mcsw.Model.BillInfo.Bill;
 import edu.eci.mcsw.Model.enums.BillStates;
 import edu.eci.mcsw.Model.userInfo.UserEnt;
 import edu.eci.mcsw.exceptions.BillNotFoundException;

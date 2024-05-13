@@ -1,4 +1,4 @@
-package edu.eci.mcsw.Model;
+package edu.eci.mcsw.Model.BillInfo;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import edu.eci.mcsw.Model.enums.BillStates;
@@ -13,7 +13,7 @@ import java.util.UUID;
 @Entity(name = "bills")
 public class Bill {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private String reference;
     private int price;
     private int modifyPrice;
@@ -37,29 +37,6 @@ public class Bill {
     }
 
     /**
-     * Default Consstuctor with all parameters
-     *
-     * @param reference
-     * @param price
-     * @param consume
-     * @param company
-     * @param emisionDate
-     * @param paidDate
-     * @param userRef
-     */
-    public Bill(UUID reference, int price, String service, String consume, String company, Date emisionDate, Date paidDate, UserEnt userRef) {
-        this.reference = reference.toString();
-        this.price = price;
-        this.service = service;
-        this.state = BillStates.PENDING;
-        this.consume = consume;
-        this.company = company;
-        this.emisionDate = emisionDate;
-        this.paidDate = paidDate;
-        this.userRef = userRef;
-    }
-
-    /**
      * Constructor without reference parameter
      *
      * @param price
@@ -78,6 +55,22 @@ public class Bill {
         this.emisionDate = emisionDate;
         this.paidDate = paidDate;
         this.userRef = userRef;
+    }
+
+    public Bill(BillDto billDto){
+        this.price = billDto.getPrice();
+        this.service = billDto.getService();
+        this.state = BillStates.PENDING;
+        this.consume = billDto.getConsume();
+        this.company = billDto.getCompany();
+        this.emisionDate = getEmisionDate();
+    }
+
+    @PrePersist
+    public void genRef(){
+        if (this.reference == null) {
+            this.reference = "1018" + String.format("%08d", UUID.randomUUID().hashCode() % 10000000);
+        }
     }
 
     public void removeUserRef() {
