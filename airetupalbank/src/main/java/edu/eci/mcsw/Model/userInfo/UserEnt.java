@@ -1,6 +1,6 @@
 package edu.eci.mcsw.Model.userInfo;
 
-import edu.eci.mcsw.Model.Account;
+import edu.eci.mcsw.Model.accountInfo.Account;
 import edu.eci.mcsw.Model.BillInfo.Bill;
 import edu.eci.mcsw.Model.enums.UserRoles;
 import jakarta.persistence.*;

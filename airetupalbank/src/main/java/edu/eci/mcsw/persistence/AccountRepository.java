@@ -1,6 +1,6 @@
 package edu.eci.mcsw.persistence;
 
-import edu.eci.mcsw.Model.Account;
+import edu.eci.mcsw.Model.accountInfo.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,6 +10,7 @@ import java.util.Optional;
 public interface AccountRepository extends JpaRepository<Account, String> {
 
     public Optional<Account> findByNumber(String number);
-
     public Boolean existsByNumber(String number);
+    public void deleteByNumber(String number);
+
 }

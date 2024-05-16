@@ -32,11 +32,11 @@ public class UserController {
 
     @RolesAllowed({ADMIN_ROLE, USER_ROLE})
     @GetMapping("/{email}")
-    public ResponseEntity<?> getAnUser(@PathVariable String email){
+    public ResponseEntity<?> getAnUser(@PathVariable String email, @RequestHeader(value = "Authorization") String authHeader){
         try{
             UserEnt query = this.userService.getUserByEmail(email);
-            UserDto data = new UserDto(query.getName(), query.getEmail());
-            return ResponseEntity.ok(data);
+//            UserDto data = new UserDto(query.getName(), query.getEmail());
+            return ResponseEntity.ok(query);
         } catch (UserNotFoundException e){
             return new ResponseEntity<>(e.getMessage(), e.getStatusCode());
         }
