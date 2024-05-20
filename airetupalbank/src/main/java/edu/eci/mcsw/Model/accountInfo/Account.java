@@ -1,4 +1,4 @@
-package edu.eci.mcsw.Model;
+package edu.eci.mcsw.Model.accountInfo;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import edu.eci.mcsw.Model.userInfo.UserEnt;
@@ -42,6 +42,13 @@ public class Account {
         this.amount = amount;
         this.bank = bank;
         this.userRef = userRef;
+    }
+
+    public Account(AccountDto accountDto){
+        this.number = accountDto.getNumber();
+        this.type = accountDto.getType();
+        this.amount = accountDto.getAmount();
+        this.bank = accountDto.getBank();
     }
 
     public void removeUserRef() {

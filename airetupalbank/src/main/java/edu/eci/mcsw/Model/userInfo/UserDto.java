@@ -8,25 +8,24 @@ import java.util.List;
 
 @Data
 public class UserDto {
-    private final String username;
-    private final String email;
-    private final String password;
+    private String username;
+    private String email;
+    private String password;
+    private String role;
 
     public UserDto() {
-        this.username = "";
-        this.email = "";
-        this.password = "";
     }
 
-    public UserDto(String username, String email, String password) {
+    public UserDto(String username, String email, String password, String role) {
         this.username = username;
         this.email = email;
-        this.password = new BCryptPasswordEncoder().encode(password);
+        this.password = password;
+        this.role = role;
     }
 
     public UserDto(String username, String email){
         this.username = username;
         this.email = email;
-        this.password = null;
     }
+
 }

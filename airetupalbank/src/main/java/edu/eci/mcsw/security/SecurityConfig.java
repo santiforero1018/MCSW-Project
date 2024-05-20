@@ -19,43 +19,46 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration
 @EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true)
 public class SecurityConfig {
-    private final JwtRequestFilter jwtRequestFilter;
+        private final JwtRequestFilter jwtRequestFilter;
 
-    private final JwtUserDetailsService jwtUserDetailsService;
+        private final JwtUserDetailsService jwtUserDetailsService;
 
-    public SecurityConfig(JwtRequestFilter jwtRequestFilter, JwtUserDetailsService jwtUserDetailsService) {
-        this.jwtRequestFilter = jwtRequestFilter;
-        this.jwtUserDetailsService = jwtUserDetailsService;
-    }
+        public SecurityConfig(JwtRequestFilter jwtRequestFilter, JwtUserDetailsService jwtUserDetailsService) {
+                this.jwtRequestFilter = jwtRequestFilter;
+                this.jwtUserDetailsService = jwtUserDetailsService;
+        }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+        @Bean
+        public PasswordEncoder passwordEncoder() {
+                return new BCryptPasswordEncoder();
+        }
 
-    @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity httpSecurity)
-            throws Exception {
-        AuthenticationManagerBuilder authenticationManagerBuilder = httpSecurity
-                .getSharedObject(AuthenticationManagerBuilder.class);
-        authenticationManagerBuilder.userDetailsService(jwtUserDetailsService)
-                .passwordEncoder(new BCryptPasswordEncoder());
-        return authenticationManagerBuilder.build();
-    }
+        @Bean
+        public AuthenticationManager authenticationManager(HttpSecurity httpSecurity)
+                        throws Exception {
+                AuthenticationManagerBuilder authenticationManagerBuilder = httpSecurity
+                                .getSharedObject(AuthenticationManagerBuilder.class);
+                authenticationManagerBuilder.userDetailsService(jwtUserDetailsService)
+                                .passwordEncoder(new BCryptPasswordEncoder());
+                return authenticationManagerBuilder.build();
+        }
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable)
-                .cors(cors -> cors
-                        .configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()))
-                .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/v1/auth/**").permitAll() // Permitir todos los endpoints necesarios
-                        .anyRequest().authenticated())
-                .httpBasic(withDefaults())
-                .sessionManagement(
-                        (sessionManagement) -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+        @Bean
+        public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+                http.csrf(AbstractHttpConfigurer::disable)
+                                .cors(cors -> cors
+                                                .configurationSource(request -> new CorsConfiguration()
+                                                                .applyPermitDefaultValues()))
+                                .authorizeHttpRequests(authz -> authz
+                                                .requestMatchers("/v1/auth/**", "/").permitAll()
+                                                .requestMatchers("/", "/index.html", "/public/**").permitAll()
+                                                .anyRequest().authenticated())
+                                .httpBasic(withDefaults())
+                                .sessionManagement(
+                                                (sessionManagement) -> sessionManagement
+                                                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
-        return http.build();
-    }
+                return http.build();
+        }
 }
