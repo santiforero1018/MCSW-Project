@@ -4,10 +4,15 @@ Hecho por: Juan Sebastian Cepeda Saray, Santiago Forero Yate, Ricardo Olarte
 usar el comando:
 
 ```bash 
-mvn exec:java
+mvn spring-boot:run
 ```
 
 ## Base de datos
 MySQL, montada en un contenedor Docker
+
+```bash
+docker run --name Airetupal -e MYSQL_ROOT_PASSWORD=1234 -e MYSQL_DATABASE=AiretupalDb -p 3306:3306 -d mysql:latest
+```
+
 
 ### Cambios y actualizaciones realizadas en la rama devs
