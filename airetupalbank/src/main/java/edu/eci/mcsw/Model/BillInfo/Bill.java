@@ -22,6 +22,7 @@ public class Bill {
     private String consume;
     private String company;
     private Date emisionDate;
+    private Date dateLimit;
     private Date paidDate;
 
     @ManyToOne
@@ -46,13 +47,14 @@ public class Bill {
      * @param paidDate
      * @param userRef
      */
-    public Bill(int price, String service, String consume, String company, Date emisionDate, Date paidDate, UserEnt userRef) {
+    public Bill(int price, String service, String consume, String company, Date emisionDate, Date dateLimit,Date paidDate, UserEnt userRef) {
         this.price = price;
         this.service = service;
         this.state = BillStates.PENDING;
         this.consume = consume;
         this.company = company;
         this.emisionDate = emisionDate;
+        this.dateLimit = dateLimit;
         this.paidDate = paidDate;
         this.userRef = userRef;
     }

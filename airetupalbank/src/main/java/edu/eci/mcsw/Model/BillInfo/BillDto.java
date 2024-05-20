@@ -15,6 +15,8 @@ public class BillDto {
     private Date emisionDate;
     private String userEmail;
     private Boolean approvedNewPrice;
+    private Date dateLimit;
+    private String accountNumber;
 
     /**
      * default constructor
@@ -33,8 +35,9 @@ public class BillDto {
      * @param state
      * @param emisionDate
      * @param userEmail
+     * @param dateLimit
      */
-    public BillDto(String reference, int price, String service, String consume, String company, String state, Date emisionDate, String userEmail) {
+    public BillDto(String reference, int price, String service, String consume, String company, String state, Date emisionDate, String userEmail, Date dateLimit, String accountNumber) {
         this.reference = reference;
         this.price = price;
         this.service = service;
@@ -43,6 +46,8 @@ public class BillDto {
         this.state = state;
         this.emisionDate = emisionDate;
         this.userEmail = userEmail;
+        this.dateLimit = dateLimit;
+        this.accountNumber = accountNumber;
     }
 
 }
