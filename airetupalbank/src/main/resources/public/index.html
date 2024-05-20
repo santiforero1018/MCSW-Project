@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenido a Airetupal Bank</title>
+    <link rel="stylesheet" href="CSS/homePage.css">
+    <script src="JavaScript/user.js"></script>
+    <link rel="icon" href="img/logo.jpg" type="image/x-icon">
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <ul>
+                <img src="img/logo.jpg" alt="Airetupal Bank Logo">
+                <li><a href="#">Inicio</a></li>
+                <li><a href="#">Cuentas</a></li>
+                <li><a href="#">Transferencias</a></li>
+                <li><a href="pagos.html">Pagos</a></li>
+                <li><a href="login.html">Cerrar Sesi&oacute;n</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="container">
+        <div class="welcome">
+            <h1>Bienvenido a Airetupal Bank, <span id="user-name"></span></h1>
+        </div>
+        <div class="info">
+            <h2>Resumen de Cuenta</h2>
+            <section>
+                <h3>Cuenta Corriente</h3>
+                <p>Saldo: <span th:text="${user.currentAccountBalance}">$5000</span></p>
+                <p>&uacute;ltima Transacci&oacute;n: <span th:text="${user.lastTransactionDate}">25 de Febrero, 2024</span></p>
+            </section>
+            <section>
+                <h3>Ahorros</h3>
+                <p>Saldo: <span th:text="${user.savingsBalance}">$10000</span></p>
+                <p>&uacute;ltima Transacci&oacute;n: <span th:text="${user.lastSavingsTransactionDate}">26 de Febrero, 2024</span></p>
+            </section>
+            <section>
+                <h3>Cr&eacute;dito</h3>
+                <p>Saldo: <span th:text="${user.creditBalance}">-$2000</span></p>
+                <p>Pr&oacute;ximo Pago: <span th:text="${user.nextPaymentDate}">15 de Marzo, 2024</span></p>
+            </section>
+        </div>
+    </div>
+    <footer class="footer">
+        <p>&copy; 2024 Airetupal Bank. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>
