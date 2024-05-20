@@ -25,5 +25,5 @@ Se realizaron pruebas de funcionamiento con la aplicación de Postman, aqui ejem
 ![imagen](https://github.com/santiforero1018/MCSW-Project/assets/88952698/2596ef47-4c57-48e1-b8ca-fcc3cf448858)
 
 
-Las demas funciones implementadas se plantearon de manera similar para probar el funcionamiento.
+Las demas funciones implementadas se plantearon de manera similar para probar el funcionamiento con postman.
 
